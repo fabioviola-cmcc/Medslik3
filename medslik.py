@@ -1,0 +1,68 @@
+#!/usr/bin/python
+
+# global requirements
+import sys
+import getopt
+import logging
+
+# local requirements
+from lib.utils import *
+from lib.Configuration import *
+
+
+# main
+if __name__ == "__main__":
+
+    #####################################################
+    #
+    # create a logger
+    #
+    #####################################################
+    
+    logging.basicConfig(level=logging.DEBUG)
+    logger = logging.getLogger("Medslik")
+    logger.info("Medslik started!")
+
+    
+    #####################################################
+    #
+    # read input arguments
+    #
+    #####################################################
+    
+    # initialization
+    configFile = None
+    
+    # read input params
+    try:
+        options, rem = getopt.getopt(sys.argv[1:], 'hc:', ['config=', 'help'])
+    
+        for opt, arg in options:
+            if opt in ('-c', '--config'):
+                configFile = arg
+            elif opt in ('-h', '--help'):
+                showHelp(logger)
+                sys.exit(0)
+    
+    except getopt.GetoptError:
+        showHelp(logger)
+        sys.exit(1)
+
+    # check if mandatory arguments are present
+    if not(configFile):
+        logger.error("Missing mandatory argument!")
+        showHelp(logger)
+        sys.exit(1)
+
+        
+    #####################################################
+    #
+    # read configuration file
+    #
+    #####################################################
+        
+    try:
+        c = Configuration(configFile)
+    except ConfigurationException as e:
+        logger.error(e.message)
+        sys.exit(1)
