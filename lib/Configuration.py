@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+# global requirements
+import traceback
+import configparser
+
 # local requirements
 from lib.ConfigurationException import *
 
@@ -12,17 +16,20 @@ class Configuration:
         
         # try to read the config file
         try:
-            self.configFileDesc = open(configFile)
+            self.configFileDesc = configparser.ConfigParser()
+            self.configFileDesc.read(configFile)
         except:
+            print(traceback.print_exc())
             raise ConfigurationException("Error opening file!")
 
         # read values from section Simulation
         try:
-            self.simLength = self.configFileDesc.get("Simulation", "Length")
-            self.startDateTime = self.configFileDesc.get("Simulation", "StartDateTime")
-            self.continuousSpill = self.configFileDesc.getBoolean("Simulation", "ContinuousSpill")
-            self.areaRadiusDeg = self.configFileDesc.getfloat("Simulation", "AreaRadiusDeg")
+            self.simLength = self.configFileDesc.getint("Simulation", "Length")
+            # self.startDateTime = self.configFileDesc.get("Simulation", "StartDateTime")
+            # self.continuousSpill = self.configFileDesc.getBoolean("Simulation", "ContinuousSpill")
+            # self.areaRadiusDeg = self.configFileDesc.getfloat("Simulation", "AreaRadiusDeg")
         except:
+            print(traceback.print_exc())
             raise ConfigurationException("Error in section Simulation of the config file")
 
         # read values from section SpillLocation
@@ -42,7 +49,4 @@ class Configuration:
             self.bathymetryPath = self.configFileDesc.get("InputFiles", "BathymetryPath")
         except:
             raise ConfigurationException("Error in section InputFiles of the config file")
-            
-        # close the file
-        self.configDesc.close()
         

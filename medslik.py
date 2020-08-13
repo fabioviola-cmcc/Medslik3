@@ -7,6 +7,7 @@ import logging
 
 # local requirements
 from lib.utils import *
+from lib.Simulation import *
 from lib.Configuration import *
 
 
@@ -66,3 +67,23 @@ if __name__ == "__main__":
     except ConfigurationException as e:
         logger.error(e.message)
         sys.exit(1)
+
+
+    #####################################################
+    #
+    # init and run the simulation
+    #
+    #####################################################
+
+    s = Simulation(c, logger)
+    s.run()
+
+
+    #####################################################
+    #
+    # exit gracefully
+    #
+    #####################################################
+
+    logger.info("Simulation finished")
+    sys.exit(0)
