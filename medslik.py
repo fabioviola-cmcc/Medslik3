@@ -20,7 +20,7 @@ if __name__ == "__main__":
     #
     #####################################################
     
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger("Medslik")
     logger.info("Medslik started!")
 
@@ -63,10 +63,13 @@ if __name__ == "__main__":
     #####################################################
         
     try:
-        c = Configuration(configFile)
+        c = Configuration(configFile, logger)
     except ConfigurationException as e:
         logger.error(e.message)
         sys.exit(1)
+
+    if c.debug:
+        logger.setLevel(logging.DEBUG)
 
 
     #####################################################
@@ -76,6 +79,12 @@ if __name__ == "__main__":
     #####################################################
 
     s = Simulation(c, logger)
+
+    # print debug information
+    if c.debug:
+        c.getInfoInputFiles()
+
+    # run the simulation
     s.run()
 
 
