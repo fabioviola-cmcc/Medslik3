@@ -80,10 +80,10 @@ class Configuration:
             currDay = currDayObject.strftime("%Y%m%d")
             
             # build the filename
-            filenameT = "MDK_ocean_%s_T.nc" % currDay
-            filenameU = "MDK_ocean_%s_U.nc" % currDay
-            filenameV = "MDK_ocean_%s_V.nc" % currDay
-            filenameWind = "%s.nc" % currDay
+            filenameT = self.currentsFilesPath + "/MDK_ocean_%s_T.nc" % currDay
+            filenameU = self.currentsFilesPath + "/MDK_ocean_%s_U.nc" % currDay
+            filenameV = self.currentsFilesPath + "/MDK_ocean_%s_V.nc" % currDay
+            filenameWind = self.windsFilesPath + "/%s.nc" % currDay
 
             # check if the filenames are already in the lists
             if not(filenameT in self.currentsTFiles):

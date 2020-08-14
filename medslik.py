@@ -84,6 +84,13 @@ if __name__ == "__main__":
     if c.debug:
         c.getInfoInputFiles()
 
+    # check if files exist
+    try:
+        s.checkInputFiles()
+    except SimulationException as e:
+        logger.error(e.message)
+        sys.exit(1)
+        
     # run the simulation
     s.run()
 
